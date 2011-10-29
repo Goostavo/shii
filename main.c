@@ -1,5 +1,9 @@
+//Shii Shell
+//Autores: Gustavo Garcia e Vinícius Lana
+
 #include <stdio.h>
-#include <stdlib.h>
+#include "parser.h"
+#include "comandos.h"
 
 int main()
 {
