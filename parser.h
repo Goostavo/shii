@@ -1,4 +1,4 @@
-//Parser do shii
+//Parser do shiii
 #ifndef _PARSER_H_
 #define _PARSER_H_
 
