@@ -35,6 +35,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="comandos.h" />
+		<Unit filename="histbuf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="histbuf.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
