@@ -14,14 +14,20 @@ void le_entrada(char* entrada, char* diretorio);
 int main(void)
 {
     int condicao_saida = 0;
-    char diretorio[1024];   //Diretorio corrente
-    char entrada[1024];     //Entrada feito pelo usuário
+    char diretorio[1024];           //Diretorio corrente
+    char entrada[1024];             //Entrada feito pelo usuário
+    char com_matrix[10][64][1024];  //Matriz de comandos depois de processada
+    int n_command;                  //Numero de comandos da matriz
+    int pipe;                       //Flag de pipe
+    int bkgnd[10];                  //Matriz de flags de bkgnd
+
     inicializa(diretorio);
     //Loop para realizar interações
     while (condicao_saida == 0)
     {
         le_entrada(entrada,diretorio);
-        //parse();
+        parser(entrada, com_matrix, &n_command, &pipe, bkgnd);
+
         //proccess();
     }
 
