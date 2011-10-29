@@ -13,12 +13,12 @@ void command_pwd(void);
 void command_wait(void);
 
 //Esta função muda o diretório corrente da shell
-//Parametros de entrada : Caminho do Diretório
+//Parametros de entrada : Caminho do Diretório e diretorio corrente (cwd)
 //Valor de retorno : Caso o diretório seja inexistente, exibe mensagem ao usuário.
-void command_cd(char *diretorio);
+void command_cd(char *diretorio, char *cwd);
 
 //Função para verificar os vetores de funções e processar as mesmas
 //retorna a flag para finalizacao do shiii
-int process(char com_matrix[10][64][1024], int* n_command, int* pipe, int* bkgnd);
+int process(char com_matrix[10][64][1024], int* n_command, int* pipe, int* bkgnd, char* diretorio);
 
 #endif

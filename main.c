@@ -23,15 +23,14 @@ int main(void)
     int exit_flag = 0;              //flag para finalizacao
 
     inicializa(diretorio);
-    //Loop para realizar interações
+    //Loop para realizar interações le -> processa
     while (exit_flag == 0)
     {
         le_entrada(entrada,diretorio);
         error_flag = parser(entrada, com_matrix, &n_command, &pipe, bkgnd);
         if (error_flag == 0)
-            exit_flag = process(com_matrix,&n_command,&pipe,bkgnd);
+            exit_flag = process(com_matrix,&n_command,&pipe,bkgnd,diretorio);
     }
-
     return 0;
 }
 
