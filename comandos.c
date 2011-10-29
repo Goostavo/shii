@@ -11,7 +11,6 @@ void command_pwd(void)
     printf("%s\n",cwd);
 }
 
-
 void command_wait(void)
 {
     pid_t pid;
