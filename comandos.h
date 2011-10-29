@@ -14,7 +14,7 @@ void command_wait(void);
 
 //Esta função muda o diretório corrente da shell
 //Parametros de entrada : Caminho do Diretório
-//Valor de retorno : Não retorna valor
+//Valor de retorno : Caso o diretório seja inexistente, exibe mensagem ao usuário.
 void command_cd(char *diretorio);
 
 #endif

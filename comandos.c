@@ -25,5 +25,7 @@ void command_wait(void)
 
 void command_cd(char *diretorio)
 {
-    chdir(diretorio);
+    int ret;
+    ret=chdir(diretorio);
+    if(ret==-1)printf("Diretório não localizado");
 }
