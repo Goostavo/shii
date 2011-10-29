@@ -29,8 +29,18 @@ int parser(char* entrada,                      //String digitada pelo usuário
             //caractere é diferente de espaço, pipe, ou '&' coloca letra no temporario
             if (entrada[indice] != ' ' && entrada[indice] != '&' && entrada[indice] != '|')
             {
-                temporario[indice_temp] = entrada[indice];
-                indice_temp++;
+                //Trata espaços utilizados em parâmetros
+                if (entrada[indice] == '\\' && entrada[indice+1] == ' ')
+                {
+                    indice++;
+                    temporario[indice_temp] = ' ';
+                    indice_temp++;
+                }
+                else
+                {
+                    temporario[indice_temp] = entrada[indice];
+                    indice_temp++;
+                }
             }
             //Se for um caractere especial coloca na posicao da matriz
             else
