@@ -77,7 +77,7 @@ int parser(char* entrada,                      //String digitada pelo usuário
     }printf("\n");
     //testa para erros
     //se erro
-        return -1;
+    //    return -1;
     //senao
         return 0;
 }

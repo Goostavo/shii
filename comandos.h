@@ -17,4 +17,7 @@ void command_wait(void);
 //Valor de retorno : Caso o diretório seja inexistente, exibe mensagem ao usuário.
 void command_cd(char *diretorio);
 
+//Função para verificar os vetores de funções e processar as mesmas
+void process(char com_matrix[10][64][1024], int* n_command, int* pipe, int* bkgnd);
+
 #endif

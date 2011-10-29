@@ -20,15 +20,16 @@ int main(void)
     int n_command;                  //Numero de comandos da matriz
     int pipe;                       //Flag de pipe
     int bkgnd[10];                  //Matriz de flags de bkgnd
+    int erro = 0;                   //flag de erro
 
     inicializa(diretorio);
     //Loop para realizar interações
     while (condicao_saida == 0)
     {
         le_entrada(entrada,diretorio);
-        parser(entrada, com_matrix, &n_command, &pipe, bkgnd);
-
-        //proccess();
+        erro = parser(entrada, com_matrix, &n_command, &pipe, bkgnd);
+        if (erro == 0)
+            process(com_matrix,&n_command,&pipe,bkgnd);
     }
 
     return 0;
