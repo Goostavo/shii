@@ -31,7 +31,8 @@ void command_cd(char *diretorio)
 }
 
 //Le a primeira coluna de dados, e processa o comando correspondente
-void process(char com_matrix[10][64][1024],      //Matriz que guarda os comandos de forma legivel
+//retorna a flag para finalizacao do shiii
+int process(char com_matrix[10][64][1024],      //Matriz que guarda os comandos de forma legivel
              int* n_command,                     //numero de comandos
              int* pipe,                          //Localizacao do pipe
              int* bkgnd)                         //Flag de execucao em background)
@@ -46,16 +47,18 @@ void process(char com_matrix[10][64][1024],      //Matriz que guarda os comandos
         }
         else if (!strcmp(com_matrix[conta_comando][0],"pwd"))
         {
-            printf("Funcao pwd aqui!\n");
+            command_pwd();
         }
         else if (!strcmp(com_matrix[conta_comando][0],"wait"))
         {
-            printf("Funcao wait aqui!\n");
+            command_wait();
         }
         else if (!strcmp(com_matrix[conta_comando][0],"exit"))
         {
-            printf("Funcao exit aqui!\n");
+            printf("Adeus!\n");
+            return 1;               //Finaliza o processamento prematuramente
         }
         conta_comando++;
     }//Fim while
+    return 0;                       //retorna ok para continuar a shii
 }

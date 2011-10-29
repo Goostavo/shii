@@ -66,17 +66,7 @@ int parser(char* entrada,                      //String digitada pelo usuário
         temporario[indice_temp] = '\0';         //Marca o fim da string
         strcpy(com_matrix[*n_command][argumento],temporario);
     }
-    printf("%d\n",*n_command);
-    for (*n_command = 0; *n_command<10; *n_command +=1)
-    {
-        for (argumento =0; argumento<= 10; argumento++)
-        {
-            printf("%s\t",com_matrix[*n_command][argumento]);
-        }
-        printf("\n");
-    }printf("\n");
-    //testa para erros
-    //se erro
+    //Se contém erro
     //    return -1;
     //senao
         return 0;

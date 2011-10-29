@@ -18,6 +18,7 @@ void command_wait(void);
 void command_cd(char *diretorio);
 
 //Função para verificar os vetores de funções e processar as mesmas
-void process(char com_matrix[10][64][1024], int* n_command, int* pipe, int* bkgnd);
+//retorna a flag para finalizacao do shiii
+int process(char com_matrix[10][64][1024], int* n_command, int* pipe, int* bkgnd);
 
 #endif

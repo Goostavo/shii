@@ -13,23 +13,23 @@ void le_entrada(char* entrada, char* diretorio);
 
 int main(void)
 {
-    int condicao_saida = 0;
     char diretorio[1024];           //Diretorio corrente
     char entrada[1024];             //Entrada feito pelo usuário
     char com_matrix[10][64][1024];  //Matriz de comandos depois de processada
     int n_command;                  //Numero de comandos da matriz
     int pipe;                       //Flag de pipe
     int bkgnd[10];                  //Matriz de flags de bkgnd
-    int erro = 0;                   //flag de erro
+    int error_flag = 0;                   //flag de erro
+    int exit_flag = 0;              //flag para finalizacao
 
     inicializa(diretorio);
     //Loop para realizar interações
-    while (condicao_saida == 0)
+    while (exit_flag == 0)
     {
         le_entrada(entrada,diretorio);
-        erro = parser(entrada, com_matrix, &n_command, &pipe, bkgnd);
-        if (erro == 0)
-            process(com_matrix,&n_command,&pipe,bkgnd);
+        error_flag = parser(entrada, com_matrix, &n_command, &pipe, bkgnd);
+        if (error_flag == 0)
+            exit_flag = process(com_matrix,&n_command,&pipe,bkgnd);
     }
 
     return 0;
