@@ -27,7 +27,7 @@ void command_wait(void)
 //cwd -> Diretório corrente
 void command_cd(char *diretorio, char *cwd)
 {
-    int ret;
+    int ret; int aux;
     ret=chdir(diretorio);
     //Em caso de erro, mostra uma mensagem.
     if(ret==-1)
@@ -37,10 +37,32 @@ void command_cd(char *diretorio, char *cwd)
         //Se tiver / como inicio a localizao é substituida
         if (diretorio[0]== '/')
             strcpy(cwd,diretorio);
-        else //Senao é adicionada
+        else //Senao é adicionada/substituida
         {
-            strcat(cwd,"/");
-            strcat(cwd,diretorio);
+            if (!strcmp(diretorio,".."))
+            {
+                //Remove o ultimo diretorio da string
+                aux = strlen(cwd)-1;
+                while (cwd[aux] != '/')
+                {
+                    aux--;
+                }
+                if (aux == 0)                   //Está ou foi para o diretório raiz
+                {
+                    strcpy(cwd,"/");
+                }
+                else
+                {
+                    strncpy(diretorio,cwd,aux);
+                    strcpy(cwd,diretorio);
+                    cwd[aux]='\0';                  //Adiciona fim de string
+                }
+            }
+            else
+            {
+                strcat(cwd,"/");
+                strcat(cwd,diretorio);
+            }
         }
     }
 }
