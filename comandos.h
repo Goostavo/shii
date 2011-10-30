@@ -23,6 +23,6 @@ int process(char com_matrix[10][64][1024], int* n_command, int* pipe, int* bkgnd
 
 //Função para execução de aplicativo
 //Valor de retorno:Caso aplicativo não exista, retorna 1.Se não, retorna 0.
-int executa_aplicativo(char com_matrix[10][64][1024],int conta_comando,int* bkgnd, int* pipe_flag);
+void executa_aplicativo(char com_matrix[10][64][1024],int conta_comando,int* bkgnd, int* pipe_flag);
 
 #endif

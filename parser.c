@@ -76,8 +76,12 @@ int parser(char* entrada,                      //String digitada pelo usuário
         temporario[indice_temp] = '\0';         //Marca o fim da string
         strcpy(com_matrix[*n_command][argumento],temporario);
     }
-    //Se contém erro
-    //    return -1;
+    //Testa por possíveis erros
+    //Caso n_command e argumento estao vazios, faz somente uma quebra de linha
+    if (*n_command == 0 && argumento == 0 && com_matrix[0][0][0] == '\0')
+    {
+        return -1;
+    }
     //senao
         return 0;
 }
