@@ -21,4 +21,8 @@ void command_cd(char *diretorio, char *cwd);
 //retorna a flag para finalizacao do shiii
 int process(char com_matrix[10][64][1024], int* n_command, int* pipe, int* bkgnd, char* diretorio);
 
+//Função para execução de aplicativo
+//Valor de retorno:Caso aplicativo não exista, retorna 1.Se não, retorna 0.
+int executa_aplicativo(char com_matrix[10][64][1024],int conta_comando,int* bkgnd, int* pipe_flag);
+
 #endif
