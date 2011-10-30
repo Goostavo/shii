@@ -59,7 +59,7 @@ int executa_aplicativo(char com_matrix[10][64][1024],       //Matriz que guarda 
     if(*pipe_flag!=0)
     {
         pipe(fd);//Criação do pipe
-        if(!fork())//Cria processo filho
+        if(!fork())//Cria processo filho 1
         {
             close(fd[1]);
             dup2(fd[0], 0);//Configura o parametro fd[0] como entrada padrão.
@@ -73,9 +73,9 @@ int executa_aplicativo(char com_matrix[10][64][1024],       //Matriz que guarda 
         }
         else if(!fork())
         {
-            close(fd[0]);
+            close(fd[0]);//Cria o processo filho 2
             dup2(fd[1], 1);//Configura o parametro fd[1] como saida padrão.
-            erro=execlp(com_matrix[conta_comando][0],com_matrix[conta_comando][0],com_matrix[conta_comando+1][1],NULL);
+            erro=execlp(com_matrix[conta_comando][0],com_matrix[conta_comando][0],com_matrix[conta_comando][1],NULL);
             if(erro==-1)//Se o aplicativo não existe
             {
                 printf("Comando ou Aplicativo não existente\n");
