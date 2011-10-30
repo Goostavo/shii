@@ -3,6 +3,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 void command_pwd(void)
@@ -69,13 +70,28 @@ void command_cd(char *diretorio, char *cwd)
 
 int executa_aplicativo(char com_matrix[10][64][1024],       //Matriz que guarda os comandos de forma legivel
                        int conta_comando,                   //Localização do comando na matriz de comandos
-                       int* bkgnd,                           //Flag de execucao em background
+                       int* bkgnd,                          //Flag de execucao em background
                        int* pipe_flag)
 {
     int fd[2];      //Parametro usado pelo pipe()
     pid_t pid;
     int erro;       //Flag de erro
+    char *argv[64];
+    int aux = 0;
 
+    //Aloca memória para argv
+    for (aux=0; aux<64; aux++)
+    {
+       argv[aux] = malloc (1024 * sizeof (char));
+    }
+
+    aux = 0;
+    while(com_matrix[conta_comando][aux][0] != '\0')
+    {
+            strcpy(argv[aux],com_matrix[conta_comando][aux]);
+            aux++;
+    }
+    *(argv+aux+1) = (char*)NULL;            //Adiciona NULL no fim.
 
     //Se há um pipe entre os processos
     if(*pipe_flag!=0)
@@ -114,12 +130,12 @@ int executa_aplicativo(char com_matrix[10][64][1024],       //Matriz que guarda 
     }//Este procedimento faz com que o primeiro processo leia através da entrada padrão a saida padrão do segundo processo.
 
     //Se não há um pipe.
-    else
+    //else
     {
         pid=fork();     //Cria processo filho
         if(pid==0)      //No processo filho, executa-se o aplicativo.
         {
-            erro=execlp(com_matrix[conta_comando][0],com_matrix[conta_comando][0],com_matrix[conta_comando][1],NULL);
+            erro=execvp(argv[0],(char**)argv);
             //Caso aplicativo ou comando inexistente, retorna 1.
             if(erro==-1)
             {
@@ -128,6 +144,13 @@ int executa_aplicativo(char com_matrix[10][64][1024],       //Matriz que guarda 
             }//endif erro
         }//endif
     }//endelse
+
+    //Desaloca memória para argv
+    for (aux=0; aux<64; aux++)
+    {
+       free(argv[aux]);
+    }
+
     return 0;
 }
 
@@ -163,7 +186,6 @@ int process(char com_matrix[10][64][1024],       //Matriz que guarda os comandos
         else
         {
             return  executa_aplicativo(com_matrix,conta_comando,bkgnd,pipe);
-
         }
         conta_comando++;
     }//Fim while
