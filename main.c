@@ -17,7 +17,7 @@ int main(void)
     char diretorio[1024];           //Diretorio corrente
     char entrada[1024];             //Entrada feito pelo usuário
     char com_matrix[10][64][1024];  //Matriz de comandos depois de processada
-    int n_command;                  //Numero de comandos da matriz
+    int n_command=0;                  //Numero de comandos da matriz
     int pipe;                       //Flag de pipe
     int bkgnd[10];                  //Matriz de flags de bkgnd
 

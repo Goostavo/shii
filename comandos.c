@@ -3,6 +3,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <string.h>
 
 void command_pwd(void)
 {
@@ -28,3 +29,5 @@ void command_cd(char *diretorio)
     ret=chdir(diretorio);
     if(ret==-1)printf("Diretório não localizado");
 }
+
+
