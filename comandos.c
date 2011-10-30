@@ -16,6 +16,7 @@ void command_wait(void)
 {
     pid_t pid;
     pid = waitpid(-1,0,0);
+
     while (pid != -1)
     {
         printf("Process %d Ended\n",pid);
@@ -43,6 +44,18 @@ void command_cd(char *diretorio, char *cwd)
             strcat(cwd,diretorio);
         }
     }
+}
+
+int executa_aplicativo(char com_matrix[10][64][1024],       //Matriz que guarda os comandos de forma legivel
+                       int conta_comando)                   //Localização do comando na matriz de comandos
+{
+    pid_t pid;
+    pid=fork();
+    if(pid==0)
+    {
+        execlp(com_matrix[conta_comando][0],com_matrix[conta_comando][0],com_matrix[conta_comando][1],NULL);
+    }
+    return 0;
 }
 
 //Le a primeira coluna de dados, e processa o comando correspondente
@@ -74,9 +87,16 @@ int process(char com_matrix[10][64][1024],       //Matriz que guarda os comandos
             printf("Adeus!\n");
             return 1;               //Finaliza o processamento prematuramente
         }
+        else
+        {
+            executa_aplicativo(com_matrix,conta_comando);
+        }
         conta_comando++;
     }//Fim while
     return 0;                       //retorna ok para continuar a shii
 }
+
+
+
 
 
