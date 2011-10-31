@@ -209,6 +209,18 @@ int process(char com_matrix[10][64][1024],       //Matriz que guarda os comandos
         {
             hist_show();
         }
+        else if (com_matrix[conta_comando][0][0]=='!')//Hist_recall
+        {
+            //Deve conter apenas ! e um inteiro
+            if (com_matrix[conta_comando][0][2]!='\0')
+            {
+                printf("Erro: Evento desconhecido!\n");
+            }
+            else
+            {
+                hist_recall(((int)com_matrix[conta_comando][0][1])-48,diretorio);
+            }
+        }
         else
         {
             executa_aplicativo(com_matrix,&conta_comando,bkgnd,pipe);

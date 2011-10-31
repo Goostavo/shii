@@ -52,26 +52,19 @@ void main_histbuf(int funcao,                       //Funcao a ser processada
     }
 
     //Funcao 3 - Recall
-    if (funcao >= 10)
+    if (funcao >= 10 || funcao < 0)
     {
         funcao = funcao - 10;
-        if (funcao > 9)
+        if (funcao > 9 || funcao < 0)
         {
             printf("Erro: Evento desconhecido!\n");
         }
         else
         {
-            //Processa pedido
+            funcao = (funcao+ultimo-1)%10;
+            process(historico[funcao],&hist_ncommand[funcao],&hist_pipe[funcao],hist_bkgnd[funcao],diretorio);
         }
     }
-
-    if (funcao==999)
-    {
-        hist_ncommand[1]++;
-        hist_bkgnd[1][1]++;
-        hist_pipe[1]++;
-    }
-
 }
 
 //Frontend das funcoes de historico
@@ -90,4 +83,10 @@ void hist_add(char comandos[10][64][1024],      //String a ser concatenada
 void hist_show(void)
 {
     main_histbuf(2, 0, 0, 0, 0, 0, 0);
+}
+
+//Roda Historico
+void hist_recall(int numero, char* diretorio)
+{
+    main_histbuf((10+numero), 0, 0, 0, 0, 0, diretorio);
 }

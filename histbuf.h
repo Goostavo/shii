@@ -17,6 +17,10 @@ void hist_add(char comandos[10][64][1024], int *n_command, char entrada[1024],in
 //Mostra historico
 void hist_show(void);
 
+//Roda uma entrada do Historico
+void hist_recall(int numero, char* diretorio);
+
+
 #endif
 
 
