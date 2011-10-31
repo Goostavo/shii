@@ -98,7 +98,7 @@ void executa_aplicativo(char com_matrix[10][64][1024],       //Matriz que guarda
     if(*pipe_flag == (*conta_comando + 1))
     {
         pipe(pipe_fd);//Criação do pipe
-        if(!fork())//Cria processo que fará a leitura do pipe
+        if(!(pid = fork()))//Cria processo que fará a leitura do pipe
         {
             //Faz o processamento inicial novamente
             aux = 0;
@@ -121,7 +121,7 @@ void executa_aplicativo(char com_matrix[10][64][1024],       //Matriz que guarda
             }//endif erro
 
         }
-        else if(!(pid = fork()))
+        else if(!fork())
         {
 
             //Cria pipe para escrita
