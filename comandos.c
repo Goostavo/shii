@@ -69,11 +69,11 @@ void command_cd(char *diretorio, char *cwd)
 }
 
 void executa_aplicativo(char com_matrix[10][64][1024],       //Matriz que guarda os comandos de forma legivel
-                       int conta_comando,                   //Localização do comando na matriz de comandos
+                       int* conta_comando,                   //Localização do comando na matriz de comandos
                        int* bkgnd,                          //Flag de execucao em background
                        int* pipe_flag)
 {
-    int fd[2];      //Parametro usado pelo pipe()
+    int pipe_fd[2];      //Parametro usado pelo pipe()
     pid_t pid;
     int erro;       //Flag de erro
     char *argv[64];
@@ -85,45 +85,65 @@ void executa_aplicativo(char com_matrix[10][64][1024],       //Matriz que guarda
        argv[aux] = malloc (1024 * sizeof (char));
     }
 
+    //Inicializa argv
     aux = 0;
-    while(com_matrix[conta_comando][aux][0] != '\0')
+    while(com_matrix[*conta_comando][aux][0] != '\0')
     {
-            strcpy(argv[aux],com_matrix[conta_comando][aux]);
+            strcpy(argv[aux],com_matrix[*conta_comando][aux]);
             aux++;
     }
     *(argv+aux) = (char*)NULL;            //Adiciona NULL no fim.
 
-    //Se há um pipe entre os processos
-    if(*pipe_flag!=0)
+    //Se existe um flag de pipe para o comando faz processamento do mesmo
+    if(*pipe_flag == (*conta_comando + 1))
     {
-        pipe(fd);//Criação do pipe
-        if(!fork())//Cria processo filho 1
+        pipe(pipe_fd);//Criação do pipe
+        if(!fork())//Cria processo que fará a leitura do pipe
         {
-            close(fd[1]);
-            dup2(fd[0], 0);//Configura o parametro fd[0] como entrada padrão.
-            erro=execvp(argv[0],(char**)argv);
-            if(erro==-1)//Se o aplicativo não existe
+            //Faz o processamento inicial novamente
+            aux = 0;
+            while(com_matrix[*conta_comando+1][aux][0] != '\0')
             {
-                printf("Comando ou Aplicativo não existente\n");
-            }//endif erro
-
-        }
-        else if(!fork())
-        {
-            close(fd[0]);//Cria o processo filho 2
-            dup2(fd[1], 1);//Configura o parametro fd[1] como saida padrão.
-            erro=execvp(argv[0],(char**)argv);
-            if(erro==-1)//Se o aplicativo não existe
-            {
-                printf("Comando ou Aplicativo não existente\n");
-            }//endif erro
-        }
-            else
-            {
-                close(fd[0]);
-                close(fd[1]);
+                    strcpy(argv[aux],com_matrix[*conta_comando+1][aux]);
+                    aux++;
             }
+            *(argv+aux) = (char*)NULL;            //Adiciona NULL no fim.
 
+            //Cria pipe para leitura
+            dup2 (pipe_fd[0], 0);
+            close (pipe_fd[1]);                   //Fecha pipe sem uso
+
+            erro=execvp(argv[0],(char**)argv);
+            if(erro==-1)//Se o aplicativo não existe
+            {
+                printf("Comando ou Aplicativo não existente\n");
+                exit(-1);
+            }//endif erro
+
+        }
+        else if(!(pid = fork()))
+        {
+
+            //Cria pipe para escrita
+            dup2 (pipe_fd[1], 1);
+            close (pipe_fd[0]);
+
+            erro=execvp(argv[0],(char**)argv);
+            if(erro==-1)//Se o aplicativo não existe
+            {
+                printf("Comando ou Aplicativo não existente\n");
+                exit(-1);
+            }//endif erro
+        }
+        else    //Processa pai
+        {
+            close(pipe_fd[0]);
+            close(pipe_fd[1]);
+            *conta_comando +=  1; //Foram processados dois comandos em vez de um
+            //Espera pelo termino do segundo processo
+            if (bkgnd[*conta_comando] == 0)
+                waitpid(pid,0,0);
+        }
 
     }//Este procedimento faz com que o primeiro processo leia através da entrada padrão a saida padrão do segundo processo.
 
@@ -138,11 +158,12 @@ void executa_aplicativo(char com_matrix[10][64][1024],       //Matriz que guarda
             if(erro==-1)
             {
                 printf("Comando ou Aplicativo não existente\n");
+                exit(-1);
             }//endif erro
         }//endif
         else            //No processo pai, se nao estiver em background espera termino
         {
-            if (bkgnd[conta_comando] == 0)
+            if (bkgnd[*conta_comando] == 0)
                 waitpid(pid,0,0);
         }
     }
@@ -185,14 +206,9 @@ int process(char com_matrix[10][64][1024],       //Matriz que guarda os comandos
         }
         else
         {
-            executa_aplicativo(com_matrix,conta_comando,bkgnd,pipe);
+            executa_aplicativo(com_matrix,&conta_comando,bkgnd,pipe);
         }
         conta_comando++;
     }//Fim while
     return 0;                       //retorna ok para continuar a shii
 }
-
-
-
-
-
