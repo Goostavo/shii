@@ -37,7 +37,7 @@ int main(void)
 //Inicializa variáveis e imprime mensagem inicial
 void inicializa(char* diretorio)
 {
-    printf("\nBem vindo a Shii - Shell Interativa Infima para iniciantes!\n");
+    printf("\nBem vindo a Shiii - Shell Interativa Infima para iniciantes!\n");
     getcwd(diretorio,1024);
 }
 

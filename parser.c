@@ -1,6 +1,7 @@
 #include "parser.h"
 #include <stdio.h>
 #include <string.h>
+#include "histbuf.h"
 
 int parser(char* entrada,                      //String digitada pelo usuário
            char com_matrix[10][64][1024],      //Matriz que guarda os comandos de forma legivel
@@ -29,6 +30,19 @@ int parser(char* entrada,                      //String digitada pelo usuário
             //caractere é diferente de espaço, pipe, ou '&' coloca letra no temporario
             if (entrada[indice] != ' ' && entrada[indice] != '&' && entrada[indice] != '|')
             {
+                //Trata comando de histórico
+                if (entrada[indice] == '!')
+                {
+                    if (indice_temp != 0 || argumento != 0) //Erro
+                    {
+                        printf("Erro de sintaxe!\n");
+                        return -1;
+                    }
+                    else
+                    {
+                        //Analisa e concatena historico
+                    }
+                }
                 //Trata espaços utilizados em parâmetros
                 if (entrada[indice] == '\\' && entrada[indice+1] == ' ')
                 {
@@ -52,6 +66,11 @@ int parser(char* entrada,                      //String digitada pelo usuário
                 if (entrada[indice] == ' ')
                 {
                     argumento++;
+                    if (argumento >= 64)    //Erro
+                    {
+                        printf("O shiii suporta apenas 64 argumentos por comando!\n");
+                        return -1;
+                    }
                 }
                 if (entrada[indice] == '&')
                 {
@@ -82,7 +101,14 @@ int parser(char* entrada,                      //String digitada pelo usuário
     {
         return -1;
     }
+    //Comandos demais!
+    if (*n_command >= 10)
+    {
+        printf("O shiii suporta apenas 10 comandos por vez!\n");
+        return -1;
+    }
     //senao
+        hist_add(com_matrix,n_command,entrada,pipe,bkgnd);
         return 0;
 }
 

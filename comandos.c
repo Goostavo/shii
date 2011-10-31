@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "histbuf.h"
 
 void command_pwd(void)
 {
@@ -203,6 +204,10 @@ int process(char com_matrix[10][64][1024],       //Matriz que guarda os comandos
         {
             printf("Adeus!\n");
             return 1;               //Finaliza o processamento prematuramente
+        }
+        else if (!strcmp(com_matrix[conta_comando][0],"history"))
+        {
+            hist_show();
         }
         else
         {
